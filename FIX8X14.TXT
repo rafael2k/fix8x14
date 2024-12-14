@@ -1,0 +1,270 @@
+
+  FIX8X14 - 8x14 font fixer
+  Copyright (C) 1997-2002 BTTR Software
+  [Under GNU GENERAL PUBLIC LICENSE]
+  Published by BTTR Software
+
+
+                                C O N T E N T S
+  ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ
+
+  1  INTRODUCTION
+  2  LICENSE & DISCLAIMER
+  3  SYSTEM REQUIREMENTS
+  4  INSTALLATION
+  5  USAGE
+     5.1  DIAG8X14.COM
+     5.2  FIX8X14.COM
+     5.3  FIX8X14.SYS
+  6  TECHNICAL SUPPORT & UPDATES
+  7  ADDITIONAL INFORMATION
+
+
+  1                         I N T R O D U C T I O N
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  On the recommendation of the VESA committee many producers of graphics cards
+  removed the 8x14 font from their graphics cards BIOS' to gain more space to
+  implement the latest VBE functions. But there is still some software that
+  relies on that font. To restore such a font, these companies developed
+  several "Terminate & Stay Resident" utilities.
+
+  FIX8X14 is the first 8x14 font-fixing implementation as a true device
+  driver, that can be loaded BEFORE ALL other DOS programs which perhaps use
+  an 8x14 font. In addition to the device driver we developed a TSR to achieve
+  maximum customer satisfaction.
+
+  To test whether your computer system requires FIX8X14 or not, we developed
+  DIAG8X14. It analyzes your computer with its own algorithm and allows visual
+  inspection too.
+
+  The following DOS software has been tested to require an 8x14 font fixer and
+  is known to work fine with FIX8X14:
+
+     Company                ³ Product                       ³ Works with...
+     ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+     Borland                ³ Quattro Pro 4                 ³ COM/SYS
+     CMAR Software          ³ PIDSIM 2.x                    ³ COM/SYS
+     Maxis Software         ³ SimCity 1.02                  ³ COM/SYS
+     Nu-Mega Technologies   ³ Soft-ICE 2.80                 ³ SYS
+     Number One Systems     ³ Easy-PC                       ³ COM/SYS
+     Soleau Software        ³ Alphaman 1.1                  ³ COM/SYS
+     Soleau Software        ³ Blind Wars 1.1                ³ COM/SYS
+     Soleau Software        ³ Bolo Adventures I 3.0         ³ COM/SYS
+     Soleau Software        ³ Bolo Adventures III 1.0       ³ COM/SYS
+     Soleau Software        ³ Crusher 3.2                   ³ COM/SYS
+     Soleau Software        ³ Isle Wars 3.1                 ³ COM/SYS
+     Soleau Software        ³ Numlo 1.0                     ³ COM/SYS
+     Soleau Software        ³ Plix 1.0                      ³ COM/SYS
+     Soleau Software        ³ Robix 1.1                     ³ COM/SYS
+     Soleau Software        ³ Sea Run 1.0                   ³ COM/SYS
+     Soleau Software        ³ Wordle 1.2                    ³ COM/SYS
+     Soleau Software        ³ Wordmax 1.1                   ³ COM/SYS
+     The Software Toolworks ³ Miracle Piano Teaching System ³ COM/SYS
+
+  The following graphics cards have been tested to require an 8x14 font fixer
+  and are known to work fine with FIX8X14:
+
+  (*) ATI XPERT@WORK 98, ATI XPERT 2000, ATI XPERT 2000 PRO, ELSA ERAZOR II,
+      ELSA VICTORY Erazor/LT, Matrox MGA Millennium G100, Matrox MGA
+      Millennium G200, Matrox MGA Millennium G400, Matrox MGA Millennium G450,
+      Trident Cyber 9397 chipset
+
+  Modern graphics cards that support an 8x14 font are the Voodoo (2k/3k/4k/5k)
+  series from 3dfx Interactive and probably all cards/chipsets that have an
+  48K bytes BIOS, e.g., Creative 3D Blaster GeForce2 MX, SiS 630 chipset,
+  Trident/ALi CyberBLADE Aladdin i1 chipset, ...
+
+  For your information here is an excerpt from "VESA BIOS EXTENSION (VBE) Core
+  Functions Standard Version: 3.0 Date: September 16, 1998":
+
+  ...
+
+  Removal of Unused VGA Fonts
+
+  VESA strongly recommends that removal of the 8x14 VGA font become a standard
+  way of freeing up space for VBE 3.0 implementations. The removal of this
+  font leaves 3.5K bytes of ROM space for new functions, and is probably the
+  least painful way to free up such a large amount of space while preserving
+  as much backwards compatibility as possible. The 8x14 font is normally used
+  for VGA Modes 0, 3 and Mode 10h, which are 350-line or EGA compatible modes.
+  When those are selected the 8x16 font may be chopped and used instead. When
+  chopping a 16 point font to replace the 14 point, there are several
+  characters (ones with descenders) that should be special cased.
+
+  Some applications which use the 8x14 font obtain a pointer to the font table
+  through the standard VGA functions and then use this table directly. In such
+  cases, no workaround using the 8x16 font is possible and a TSR with the 8x14
+  font is unavoidable. Some OEMs may find this situation unacceptable because
+  of the potential for an inexperienced user to encounter "garbage" on the
+  screen if the TSR is not present. However, OEMs may also find eventually
+  that demand for VBE 3.0 services is great enough to justify the
+  inconvenience associated with an 8x14 font TSR. To date, no compatibility
+  problems are known to be caused by the use of such a TSR. VESA will make
+  available a TSR that replaces the 8x14 font, please contact VESA for more
+  information.
+
+  ...
+
+  Copyright (C) 1993-1998 Video Electronics Standards Association
+
+
+  2                  L I C E N S E  &  D I S C L A I M E R
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  This program is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation; either version 2 of the License, or (at your option)
+  any later version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  more details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+  Place, Suite 330, Boston, MA 02111-1307 USA
+
+  Trademarks of companies mentioned in this software appear for identification
+  purposes only and are the property of their respective owners.
+
+
+  3                  S Y S T E M  R E Q U I R E M E N T S
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  (*) Intel i80286 microprocessor (or compatibles)
+
+  (*) IBM VGA graphics card (or compatibles)
+
+  (*) Digital Research DR DOS 5.0, IBM PC DOS 3.30, Microsoft MS-DOS 3.30 (any
+      other DOS compatible operating system should work too)
+
+
+  4                         I N S T A L L A T I O N
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  There is no designated setup program that comes with FIX8X14 because
+  installation can be done very easily: Decompress the complete archive (with,
+  e.g., PKUNZIP or WinZip) into an empty directory and you are ready to use
+  FIX8X14.
+
+
+  5.1                       D I A G 8 X 1 4 . C O M
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  The filename says it all: DIAG8X14 is the diagnostic utility to test for the
+  8x14 font on your computer system.
+
+  At first it evaluates the memory locations of the 8x14 and the 8x16 font in
+  your computer system. If these addresses are equal, there is probably no
+  real 8x14 font (or an 8x14 font fixer) present. As this "algorithm" is not
+  100% reliable, DIAG8X14 then allows you to do visual inspection of a test
+  pattern. So you can decide yourself, if you have to or want to use FIX8X14.
+
+  To summarize: Execute DIAG8X14.COM at the command prompt of your computer's
+                OS and follow the on-screen instructions.
+
+  NOTE: If you use any Microsoft Windows environment, please ensure that you
+        start DIAG8X14.COM in full-screen mode!
+
+
+  5.2                        F I X 8 X 1 4 . C O M
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  FIX8X14.COM is our TSR solution for on-the-fly fixing of the 8x14 font
+  problem.
+
+  It does not require any manipulation to your configuration files!
+
+  Simply execute it at the command prompt of your computer's OS and it will
+  move itself into an Upper Memory Block (UMB) (if available) and return
+  control to the underlying operating system. Then you start your desired
+  application and proceed as normal. After quitting your application execute
+  FIX8X14.COM again and it will remove itself from memory, leaving your
+  computer system in the state it was before.
+
+  NOTE: It is neither required nor recommended to use the LOADHIGH command!
+
+  If you need to or want to apply FIX8X14.COM to a specific DOS program, then
+  in it is recommended for Microsoft Windows (9x, ME, NT 4.0, 2000, etc.)
+  users to create a desktop shortcut to a batch file.
+
+  (*) Firstly copy the file FIX8X14.COM into the directory of your DOS
+      program.
+
+  (*) To create such a simple batch file open NOTEPAD (or any other plain text
+      editor), put the following lines in and save the file as, e.g.,
+      start.bat into the directory of your DOS program.
+
+      @echo off
+      fix8x14.com
+      example.exe  <-- place name of your DOS program here
+      fix8x14.com
+
+  (*) Double-click the "My Computer" icon on the desktop. Change to the
+      directory where you saved the batch file to. Click the batch file. On
+      the "File" menu, click "Create Shortcut". Resize the "My Computer"
+      window to see the desktop in the background. Drag the shortcut icon onto
+      the desktop.
+
+      Use your right mouse button to click the shortcut, and then click
+      "Properties". Be sure to check "Close on exit" on the "Program" tab and
+      change "Usage" to "Full-screen" on the "Screen" tab.
+
+
+  5.3                        F I X 8 X 1 4 . S Y S
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  DOS & Microsoft Windows 9x
+
+    (*) place the line "DEVICEHIGH=C:\TOOLS\FIX8X14\FIX8X14.SYS" (adjust path
+        properly) right after the HIMEM.SYS statement in your CONFIG.SYS file
+
+    (*) reboot your computer and start DIAG8X14 to test the proper
+        installation
+
+  Microsoft Windows ME
+
+    Microsoft Windows ME does not parse CONFIG.SYS or AUTOEXEC.BAT files by
+    default. There are some (difficult to use) solutions to this problem, but
+    we recommend to use our TSR program FIX8X14.COM. See section 5.2 for
+    details.
+
+  Microsoft Windows NT & Microsoft Windows 2000
+
+    (*) place the line "DEVICEHIGH=C:\TOOLS\FIX8X14\FIX8X14.SYS" (adjust path
+        properly) right after the HIMEM.SYS statement in your
+        %systemroot%\system32\config.nt file
+
+    (*) start DIAG8X14 to test the proper installation
+
+
+  6            T E C H N I C A L  S U P P O R T  &  U P D A T E S
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  First read bugs.txt for already known bugs.
+
+  If you encounter any bugs or just want to tell us your opinion about this
+  software, do not hesitate to contact our technical support by e-mail.
+
+                           <support@bttr-software.de>
+
+  Possible future updates to this software will be available from our website.
+
+                     `http://www.bttr-software.de/fix8x14/'
+
+
+  7                A D D I T I O N A L  I N F O R M A T I O N
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  FIX8X14 was created using Aurora Editor 3.0c, Borland MAKE 3.0, Netwide
+  Assembler (NASM) 0.98, Advanced SPHiNX C-- 0.237 and Ultimate Packer for
+  eXecutables (UPX) 1.20d as well as massive information from several books
+  and the internet.
+
+  Special thanks to Pete Kvitek <pete@kvitek.com> who offered the source code
+  for his ancient EVAFONT package to us, which was a great help in extending
+  the reliability of FIX8X14.
+
+  ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ END OF DOCUMENT ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ

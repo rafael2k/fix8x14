@@ -1,0 +1,13 @@
+         FIX8X14 Version 1.0.8
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴�
+   On the recommendation of the VESA
+ committee many producers of graphics
+cards removed the 8x14 font from their
+graphics cards BIOS' to gain more space
+to implement the latest VBE functions.
+ But there is still some software that
+         relies on that font.
+컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴�
+ Copyright (C) 1997-2002 BTTR Software
+  [Under GNU GENERAL PUBLIC LICENSE]
+      Published by BTTR Software

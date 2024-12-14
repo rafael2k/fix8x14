@@ -1,0 +1,17 @@
+
+  FIX8X14 - 8x14 font fixer
+  Copyright (C) 1997-2002 BTTR Software
+  [Under GNU GENERAL PUBLIC LICENSE]
+  Published by BTTR Software
+
+
+                               K N O W N  B U G S
+  컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+  (*) There seems to be an incompatibility between DIAG8X14 and some ATI
+      driver versions for Microsoft Windows 2000. We already changed DIAG8X14
+      drastically, but still no luck. Please do not blame us, as we do not use
+      any illegal graphics cards functions in DIAG8X14! Blame ATI for their
+      EGA/VGA emulation instead!
+
+  컴컴컴컴컴컴컴컴컴컴컴컴컴컴� END OF DOCUMENT 컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴

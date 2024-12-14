@@ -1,0 +1,57 @@
+
+  FIX8X14 - 8x14 font fixer
+  Copyright (C) 1997-2002 BTTR Software
+  [Under GNU GENERAL PUBLIC LICENSE]
+  Published by BTTR Software
+
+
+                                 H I S T O R Y
+  컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
+
+  April 06, 2002
+    (*) added product reference to Borland Quattro Pro 4 and reference to the
+        Trident Cyber 9397 chipset
+    (*) reduced DIAG8X14's executable by ~40 bytes
+
+  November 24, 2001
+    (*) using SPHiNX C-- compiler 0.237 reduced size of DIAG8X14 executable
+
+  November 20, 2001
+    (*) reduced device driver size on disk again
+
+  October 28, 2001
+    (*) reduced disk & memory footprint of device driver
+
+  September 21, 2001
+    (*) removed a bug (introduced on September 19, 2001) in the device driver
+        that prevented loading the driver on Digital Research DR DOS 5.0 (and
+        lower), and the FreeDOS kernel (all versions)
+    (*) slightly reduced device driver's size on disk
+
+  September 19, 2001
+    (*) slightly reduced resident part's size of device driver
+
+  September 12, 2001
+    (*) added a short description to the docs on how to create a desktop
+        shortcut when using the Microsoft Windows environment
+    (*) made some other minor changes to the docs
+
+  August 08, 2001
+    (*) changed keyboard handling of DIAG8X14 slightly
+    (*) added product reference to Easy-PC
+    (*) added reference to the Trident/ALi CyberBLADE Aladdin i1 chipset
+    (*) made some minor changes to the docs again
+
+  June 02, 2001
+    (*) added product reference to PIDSIM
+
+  May 11, 2001
+    (*) made two other changes to the docs
+
+  April 29, 2001
+    (*) fixed 2 typos in the docs
+
+  April 21, 2001
+    (*) released initial public version
+
+  컴컴컴컴컴컴컴컴컴컴컴컴컴컴� END OF DOCUMENT 컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴
