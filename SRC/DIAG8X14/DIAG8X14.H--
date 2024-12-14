@@ -1,0 +1,125 @@
+/*****************************************************************************
+  "DIAG8X14" - 8x14 font fixer (diagnostics helper functions)
+               Part of the 8x14 font fixing package "FIX8X14"
+
+  Written by Robert Riebisch <rr@bttr-software.de>
+  for BTTR Software
+
+  Copyright (C) 1997-2002 BTTR Software
+  [Under GNU GENERAL PUBLIC LICENSE]
+  Published by BTTR Software
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *****************************************************************************/
+
+?include "colors.h--"
+
+/* pointer to current font */
+word font[2];
+
+/* height of character in pixels */
+byte charheight;
+
+/*
+     *** put a pixel at x/y with color in all EGA/VGA graphics modes
+        void bios_putpixel(int x, y; byte color)
+*/
+void bios_putpixel(int x, y; byte color) {
+  AH = 0x0C;
+  AL = color;
+  BH = 0;
+  CX = x;
+  DX = y;
+  $int 0x10
+}
+
+/*
+     *** write a single character at x/y with foreground color "fgcolor" and
+         background color "bgcolor" and layout defined by font
+
+        void vga_writechr(char c; int x, y; byte fgcolor, bgcolor)
+*/
+void vga_writechr(char c; int x, y; byte fgcolor, bgcolor) {
+  byte i, j, mask;
+  word charofs;
+
+  /* calculate offset of character into font */
+  charofs = c * charheight + font;
+  /* column loop */
+  FOR (i = 0; i < charheight; i++) {
+    ES = font[2];
+    mask = ESBYTE[charofs];
+    /* row loop */
+    FOR (j = 0; j < 8; j++) {
+      /* foreground? */
+      IF (mask & 128)
+        bios_putpixel(x + j, y + i, fgcolor);
+      /* no, background */
+      ELSE
+        /* transparent background? */
+        IF (bgcolor != TRANSPARENT)
+          bios_putpixel(x + j, y + i, bgcolor);
+      /* access next bit */
+      mask <<= 1;
+    }
+    charofs++;
+  }
+}
+
+/*
+     *** write a zero-terminated string at x/y with foreground color "fgcolor"
+         and background color "bgcolor" and layout defined by font, includes
+         simple line-break handling
+
+        void vga_writestrz(word s; int x, y; byte fgcolor, bgcolor)
+*/
+void vga_writestrz(word s; int x, y; byte fgcolor, bgcolor) {
+  AL = DSBYTE[s];
+  WHILE (AL) {
+    switch (AL) {
+      /* line feed */
+      case 0x0A:
+        y += charheight;
+        BREAK;
+      /* carriage return */
+      case 0x0D:
+        x = 0;
+        BREAK;
+      default:
+        vga_writechr(AL, x, y, fgcolor, bgcolor);
+        x += 8;
+    }
+    s++;
+    AL = DSBYTE[s];
+  };
+}
+
+/*
+     *** write zero-terminated string at DS:DX to filehandle in BX
+        :word DOSWRITESTRZ(, filehandle, , string_offset)
+*/
+:word DOSWRITESTRZ() {
+?DOSrequired 0x0200
+  /* find terminating zero */
+  SI = DX;
+  CX = 0;
+  WHILE (DSBYTE[SI]) {
+    CX++;
+    SI++;
+  }
+  /* write string to handle */
+  AH = 0x40;
+  $int 0x21
+}

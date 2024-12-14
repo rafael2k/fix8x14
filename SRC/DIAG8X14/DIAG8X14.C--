@@ -1,0 +1,162 @@
+/*****************************************************************************
+  "DIAG8X14" - 8x14 font fixer (diagnostics)
+               Part of the 8x14 font fixing package "FIX8X14"
+
+  Written by Robert Riebisch <rr@bttr-software.de>
+  for BTTR Software
+
+  Copyright (C) 1997-2002 BTTR Software
+  [Under GNU GENERAL PUBLIC LICENSE]
+  Published by BTTR Software
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *****************************************************************************/
+
+/* include some code from standard library */
+?include "colors.h--"   /* names of standard colors */
+?include "convert.h--"  /* WORD2HEXSTR2() */
+?include "file.h--"     /* STDOUT */
+?include "keycodes.h--" /* BIOSEREADKEY() */
+?include "video.h--"    /* GETVIDEOMODE(), SETVIDEOMODE() */
+
+/* include some helper functions */
+?include ".\\diag8x14\\diag8x14.h--"
+
+/* lots of messages */
+char intromsg =
+  "DIAG8X14 Version 1.0.8\n"
+  "Copyright (C) 1997-2002 BTTR Software\n"
+  "[Under GNU GENERAL PUBLIC LICENSE]\n"
+  "Published by BTTR Software\n"
+  "\n";
+
+/* used for 8x16 too */
+char addressmsg =
+  "8x14 font detected at address 0000:0000.\n";
+
+char sameaddressmsg =
+  "\n"
+  "Both fonts were detected at the same memory location, so there\n"
+  "is probably no 8x14 font present.\n"
+  "\n"
+  "Advice: Please install FIX8X14!\n"
+  "\n";
+
+char diffaddressmsg =
+  "\n"
+  "Fonts were detected at different memory locations, so there\n"
+  "seems to be an 8x14 font present.\n"
+  "\n"
+  "Advice: It is not necessary to install FIX8X14.\n"
+  "\n";
+
+char anykey1msg =
+  "Press any key for visual inspection...\n";
+
+char usagemsg =
+  "In the middle of the screen DIAG8X14 painted a very well known\n"
+  "sentence. If you can read the text there, your graphics card has\n"
+  "8x14 font support and it is not required to install FIX8X14, but\n"
+  "if you see some hieroglyphs only then you should install FIX8X14\n"
+  "regardless of the result of DIAG8X14's address inspection.";
+
+char lazydogmsg =
+  "The quick brown fox jumps over the lazy dog.";
+
+char anykey2msg =
+  "Press any key to return to operating system...";
+
+/* pointers to 8x14 font and 8x16 font */
+word font8x14[2], font8x16[2];
+
+/* hold current video mode */
+byte vidmode;
+
+/* main part */
+int main()
+{
+  /* display name and license of program */
+  DOSWRITESTRZ(, STDOUT, , #intromsg);
+
+  /* save BP */
+  $PUSH BP
+
+  /* get address of 8x14 font */
+  AX = 0x1130;       /* VIDEO - GET FONT INFORMATION (EGA, MCGA, VGA) */
+  BH = 2;            /* ROM 8x14 character font pointer */
+  $int 0x10
+  font8x14[2] = ES;
+  font8x14 = BP;
+
+  /* get address of 8x16 font */
+  AX = 0x1130;       /* VIDEO - GET FONT INFORMATION (EGA, MCGA, VGA) */
+  BH = 6;            /* ROM 8x16 font (MCGA, VGA) */
+  $int 0x10
+  font8x16[2] = ES;
+  font8x16 = BP;
+
+  /* restore BP */
+  $POP BP
+
+  /* convert and display font addresses */
+  WORD2HEXSTR2(font8x14[2], #addressmsg + 30);
+  WORD2HEXSTR2(font8x14, #addressmsg + 35);
+  DOSWRITESTRZ(, STDOUT, , #addressmsg);
+
+  /* 'recycle' message */
+  addressmsg[3] = '6';
+  WORD2HEXSTR2(font8x16[2], #addressmsg + 30);
+  WORD2HEXSTR2(font8x16, #addressmsg + 35);
+  DOSWRITESTRZ(, STDOUT, , #addressmsg);
+
+  /* evaluate font addresses and display result */
+  IF ((font8x14[2] == font8x16[2]) && (font8x14 == font8x16))
+    DOSWRITESTRZ(, STDOUT, , #sameaddressmsg);
+  ELSE
+    DOSWRITESTRZ(, STDOUT, , #diffaddressmsg);
+
+  /* display what's coming now */
+  DOSWRITESTRZ(, STDOUT, , #anykey1msg);
+
+  /* wait for keypress */
+  @BIOSEREADKEY();
+
+  /* get current video mode */
+  vidmode = @GETVIDEOMODE();
+
+  /* switch to new video mode */
+  @SETVIDEOMODE(vid_640x350_16);
+
+  /* display further usage */
+  font[2] = font8x16[2]; font = font8x16;
+  charheight = 16;
+  vga_writestrz(#usagemsg, 0, 0, LIGHTGRAY, TRANSPARENT);
+
+  /* give a hint to the user on how to exit the program */
+  vga_writestrz(#anykey2msg, 0, 322, LIGHTGRAY, TRANSPARENT);
+
+  /* display lazydogmsg with 8x14 system font */
+  font[2] = font8x14[2]; font = font8x14;
+  charheight = 14;
+  vga_writestrz(#lazydogmsg, 0, 175, WHITE, RED);
+
+  /* wait for keypress */
+  BIOSEREADKEY();
+
+  /* restore video mode */
+  @SETVIDEOMODE(vidmode);
+
+  return(0);
+}
